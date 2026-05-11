@@ -1016,6 +1016,9 @@ function scenarioIdToAssetbundleName(scenarioId: string) {
     }
   }
 
+  // Remove " のコピー" (copy) suffix from scenario IDs
+  result = result.replace(/ のコピー$/, "");
+
   const map: Record<string, string> = {
     "areatalk03_266(20230607修正)": "areatalk03_266",
     "★4冬弥・泉_前半": "012043_touya01",
