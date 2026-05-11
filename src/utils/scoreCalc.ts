@@ -173,7 +173,8 @@ export function useScoreCalc() {
     ): number => {
       // console.log(mode);
       switch (mode) {
-        case "marathon": {
+        case "marathon":
+        case "world_bloom": {
           const basePoint =
             100 +
             Math.floor(Math.min(selfScore, 4200000) / 20000) +
