@@ -4,6 +4,7 @@ import {
   Collapse,
   Grid,
   IconButton,
+  TextField,
   Tooltip,
 } from "@mui/material";
 import {
@@ -76,6 +77,7 @@ const StampList: React.FC<unknown> = () => {
   const [lastQueryFin, setLastQueryFin] = useState<boolean>(true);
   const [isReady, setIsReady] = useState<boolean>(false);
   const [stampType, setStampType] = useState("");
+  const [searchText, setSearchText] = useState<string>("");
 
   const getPaginatedStamps = useCallback(
     (page: number, limit: number) => {
@@ -140,6 +142,14 @@ const StampList: React.FC<unknown> = () => {
           compareTypes.push("cheerful_carnival_message");
         cache = cache.filter((s) => compareTypes.includes(s.stampType));
       }
+      if (searchText) {
+        const lowerSearchText = searchText.toLowerCase();
+        cache = cache.filter(
+          (s) =>
+            s.name.toLowerCase().includes(lowerSearchText) ||
+            (s.description && s.description.toLowerCase().includes(lowerSearchText))
+        );
+      }
       if (sortType === "desc") {
         cache = cache.sort((a, b) => b[sortBy as "id"] - a[sortBy as "id"]);
       } else if (sortType === "asc") {
@@ -155,6 +165,7 @@ const StampList: React.FC<unknown> = () => {
     sortBy,
     sortType,
     stampType,
+    searchText,
     stampsCache,
   ]);
 
@@ -277,6 +288,16 @@ const StampList: React.FC<unknown> = () => {
         <Collapse in={filterOpen}>
           <PaperContainer>
             <Grid container direction="column" spacing={1}>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label={t("common:search")}
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
+                  variant="outlined"
+                  size="small"
+                />
+              </Grid>
               <Grid
                 item
                 container
